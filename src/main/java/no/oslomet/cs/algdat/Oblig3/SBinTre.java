@@ -196,7 +196,13 @@ public class SBinTre<T> {
     }
 
     static <K> SBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(data.isEmpty())return null;
+        SBinTre<K> out = new SBinTre<>(c);
+
+        for(K k : data){
+            out.leggInn(k);
+        }
+        return out;
     }
 
 
