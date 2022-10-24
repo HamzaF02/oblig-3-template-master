@@ -98,7 +98,7 @@ public class SBinTre<T> {
         else q.høyre = p;
 
 
-        antall++;
+        antall++;endringer++;
         return true;
     }
 
@@ -114,10 +114,11 @@ public class SBinTre<T> {
         }
         if(p == null)return false;
 
-        if(p == rot){rot = null;return true;}
 
-        if(p.venstre != null && p.høyre != null){
-            Node<T> bytte = p;
+        if(antall == 1){rot = null;}
+
+        else if(p.venstre != null && p.høyre != null){
+            Node<T> bytte = p.høyre;
             while(true){
                 if(bytte.venstre != null)bytte = bytte.venstre;
                 else if(bytte.høyre != null)bytte = bytte.høyre;
@@ -128,37 +129,30 @@ public class SBinTre<T> {
             Node<T> r = bytte.forelder;
             if(r.venstre == bytte)r.venstre = null;
             else r.høyre = null;
-
-            return true;
         }
 
-        else if(q.venstre == p){
-            if(p.venstre == null && p.høyre== null)q.venstre = null;
-            else if(p.venstre == null){
-                Node<T> r = p.høyre;
-                r.forelder = q;
-                q.høyre = r;
-            }
-            else{
-                Node<T> r = p.venstre;
-                r.forelder = q;
-                q.høyre = r;
-            }
+
+        else if(p.venstre == null && p.høyre== null){
+            if(q.venstre == p)q.venstre = null;
+            else q.høyre = null;
         }
+
+        else if(p.venstre == null){
+            Node<T> r = p.høyre;
+            r.forelder = q;
+            if(q.venstre == p)q.høyre = r;
+            else q.venstre = r;
+        }
+
         else{
-            if(p.venstre == null && p.høyre== null)q.høyre = null;
-            else if(p.venstre == null){
-                Node<T> r = p.høyre;
-                r.forelder = q;
-                q.venstre = r;
-            }
-            else{
-                Node<T> r = p.venstre;
-                r.forelder = p.forelder;
-                q.venstre = r;
-            }
-        }return true;
+            Node<T> r = p.venstre;
+            r.forelder = q;
+            if(q.venstre == p)q.høyre = r;
+            else q.venstre = r;
+        }
 
+        antall--;endringer++;
+        return true;
     }
 
     public int fjernAlle(T verdi) {
