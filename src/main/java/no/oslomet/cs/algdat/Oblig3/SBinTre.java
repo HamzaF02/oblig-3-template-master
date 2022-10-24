@@ -105,58 +105,59 @@ public class SBinTre<T> {
     public boolean fjern(T verdi) {
         if(verdi==null)return false;
 
-        Node<T> p = rot, q = null;
+        Node<T> p = rot, q;
+
+        if(antall == 1){rot = null;antall--;endringer++;return true;}
 
         while(p!=null){
             if(p.verdi.equals(verdi))break;
-            q = p;
             p =  comp.compare(verdi,p.verdi) < 0 ? p.venstre : p.høyre;
         }
         if(p == null)return false;
 
+        antall--;endringer++;
 
-        if(antall == 1){rot = null;}
+        q = p.forelder;
 
-        else if(p.venstre != null && p.høyre != null){
+        if(p.venstre == null && p.høyre == null){
+            if(q.venstre == p)q.venstre = null;
+            else q.høyre = null;
+        }
+        else if(p.venstre ==null || p.høyre == null){
+
+            Node<T> r = p.høyre != null ? p.høyre : p.venstre;
+
+            r.forelder = q;
+            if(q == null)rot = r;
+            else if(q.venstre == p)q.venstre = r;
+            else q.høyre= r;
+
+        }
+        else{
             Node<T> bytte = p.høyre;
+
             while(true){
                 if(bytte.venstre != null)bytte = bytte.venstre;
                 else if(bytte.høyre != null)bytte = bytte.høyre;
                 else break;
             }
+
             p.verdi = bytte.verdi;
 
             Node<T> r = bytte.forelder;
             if(r.venstre == bytte)r.venstre = null;
             else r.høyre = null;
         }
-
-
-        else if(p.venstre == null && p.høyre== null){
-            if(q.venstre == p)q.venstre = null;
-            else q.høyre = null;
-        }
-
-        else if(p.venstre == null){
-            Node<T> r = p.høyre;
-            r.forelder = q;
-            if(q.venstre == p)q.høyre = r;
-            else q.venstre = r;
-        }
-
-        else{
-            Node<T> r = p.venstre;
-            r.forelder = q;
-            if(q.venstre == p)q.høyre = r;
-            else q.venstre = r;
-        }
-
-        antall--;endringer++;
         return true;
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        int teller = 0;
+        while (true){
+            if(fjern(verdi)){teller++;}
+            else{break;}
+        }
+        return teller;
     }
 
     public int antall(T verdi) {
@@ -175,7 +176,16 @@ public class SBinTre<T> {
     }
 
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Node<T> p = førstePostorden(rot);
+        while(p!=null && p != rot){
+            p = p.forelder;
+            p.venstre = null;
+            p.høyre = null;
+            p = nestePostorden(p);
+        }
+        rot = null;
+        antall = 0;
+        endringer = 0;
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
