@@ -125,7 +125,6 @@ public class SBinTre<T> {
             }
             else p = comp.compare(verdi,p.verdi) < 0 ? p.venstre : p.høyre;
         }
-
         return ant;
     }
 
