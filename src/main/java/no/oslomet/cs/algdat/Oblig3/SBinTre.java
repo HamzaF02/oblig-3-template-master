@@ -103,7 +103,62 @@ public class SBinTre<T> {
     }
 
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(verdi==null)return false;
+
+        Node<T> p = rot, q = null;
+
+        while(p!=null){
+            if(p.verdi.equals(verdi))break;
+            q = p;
+            p =  comp.compare(verdi,p.verdi) < 0 ? p.venstre : p.høyre;
+        }
+        if(p == null)return false;
+
+        if(p == rot){rot = null;return true;}
+
+        if(p.venstre != null && p.høyre != null){
+            Node<T> bytte = p;
+            while(true){
+                if(bytte.venstre != null)bytte = bytte.venstre;
+                else if(bytte.høyre != null)bytte = bytte.høyre;
+                else break;
+            }
+            p.verdi = bytte.verdi;
+
+            Node<T> r = bytte.forelder;
+            if(r.venstre == bytte)r.venstre = null;
+            else r.høyre = null;
+
+            return true;
+        }
+
+        else if(q.venstre == p){
+            if(p.venstre == null && p.høyre== null)q.venstre = null;
+            else if(p.venstre == null){
+                Node<T> r = p.høyre;
+                r.forelder = q;
+                q.høyre = r;
+            }
+            else{
+                Node<T> r = p.venstre;
+                r.forelder = q;
+                q.høyre = r;
+            }
+        }
+        else{
+            if(p.venstre == null && p.høyre== null)q.høyre = null;
+            else if(p.venstre == null){
+                Node<T> r = p.høyre;
+                r.forelder = q;
+                q.venstre = r;
+            }
+            else{
+                Node<T> r = p.venstre;
+                r.forelder = p.forelder;
+                q.venstre = r;
+            }
+        }return true;
+
     }
 
     public int fjernAlle(T verdi) {
