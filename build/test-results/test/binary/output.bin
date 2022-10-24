@@ -1,0 +1,2 @@
+7Oppgave 3d: Feil i toStringPostOrder()! Men feilen kan
+*ligge i leggInn() eller i nesteInorden().

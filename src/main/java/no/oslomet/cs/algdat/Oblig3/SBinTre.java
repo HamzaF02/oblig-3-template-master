@@ -143,10 +143,22 @@ public class SBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        if(p.forelder == null)return null;
 
-        if(p == p.forelder.venstre)return p.forelder.høyre;
+
+        if(p == null || p.forelder == null)return null;
+
+        if(p == p.forelder.venstre) {
+            if (p.forelder.høyre == null)return p.forelder;
+
+            p = p.forelder.høyre;
+            while(true){
+                if(p.venstre != null)p = p.venstre;
+                else if(p.høyre != null)p = p.høyre;
+                return p;
+            }
+        }
         else return p.forelder;
+
 
     }
 
