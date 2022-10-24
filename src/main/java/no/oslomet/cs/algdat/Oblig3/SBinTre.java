@@ -176,16 +176,20 @@ public class SBinTre<T> {
     }
 
     public void nullstill() {
+        if(tom())return;
         Node<T> p = førstePostorden(rot);
         while(p!=null && p != rot){
+            Node<T> q = p;
+            Node<T> r = nestePostorden(q);
             p = p.forelder;
-            p.venstre = null;
-            p.høyre = null;
-            p = nestePostorden(p);
+            q.forelder = null;
+            if(p.venstre == q)p.venstre = null;
+            else p.høyre = null;
+            p = r;
         }
         rot = null;
         antall = 0;
-        endringer = 0;
+        endringer++;
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
