@@ -91,12 +91,11 @@ public class SBinTre<T> {
             p = cmp < 0 ? p.venstre : p.høyre;
         }
 
-        p = new Node<>(verdi, null,null,q);
+        p = new Node<>(verdi,q);
 
         if (q == null) rot = p;
         else if (cmp < 0) q.venstre = p;
         else q.høyre = p;
-
 
         antall++;endringer++;
         return true;
@@ -207,15 +206,10 @@ public class SBinTre<T> {
 
         if(p == null || p.forelder == null)return null;
 
-        if(p == p.forelder.venstre) {
-            if (p.forelder.høyre == null)return p.forelder;
-
+        if(p == p.forelder.venstre && p.forelder.høyre != null) {
             p = p.forelder.høyre;
-            while(true){
-                if(p.venstre != null)p = p.venstre;
-                else if(p.høyre != null)p = p.høyre;
-                else return p;
-            }
+            p = førstePostorden(p);
+            return p;
         }
         else return p.forelder;
 
