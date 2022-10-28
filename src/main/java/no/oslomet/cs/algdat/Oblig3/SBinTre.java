@@ -106,13 +106,13 @@ public class SBinTre<T> {
 
         Node<T> p = rot, q;
 
-        if(antall == 1){rot = null;antall--;endringer++;return true;}
-
         while(p!=null){
             if(p.verdi.equals(verdi))break;
             p =  comp.compare(verdi,p.verdi) < 0 ? p.venstre : p.høyre;
         }
         if(p == null)return false;
+
+        if(antall == 1){rot = null;antall--;endringer++;return true;}
 
         antall--;endringer++;
 
@@ -135,11 +135,7 @@ public class SBinTre<T> {
         else{
             Node<T> bytte = p.høyre;
 
-            while(true){
-                if(bytte.venstre != null)bytte = bytte.venstre;
-                else if(bytte.høyre != null)bytte = bytte.høyre;
-                else break;
-            }
+            bytte = førstePostorden(bytte);
 
             p.verdi = bytte.verdi;
 
@@ -154,7 +150,7 @@ public class SBinTre<T> {
         int teller = 0;
         while (true){
             if(fjern(verdi)){teller++;}
-            else{break;}
+            else break;
         }
         return teller;
     }
