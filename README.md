@@ -19,3 +19,8 @@ I oppgave 5 skal man gjøre treet til en liste og fra liste tilbake til et tre. 
 
 I oppgave 6 starter man med fjern() metoden som har mange muligheter, og hver mulighet må kodes for. Den første er at treet kun har en node (antall == 1). Andre mulighet er at noden ikke har noen barn, fjerner kun foreldrekoblingen. Tredje muligheten er at noden kun har et barn, da tar barnet plassen til noden. Den siste er hvis noden har to barn, da byttes ‘p.verdi’ med verdien til en annen node ‘bytte’ og ‘bytte’ slettes. ‘bytte’ er første tallet i post orden av høyre delen treet (bytte = førstePostorden(bytte)). Dette gjøres etter noden har blitt funnet og verdier som ‘rot’, ‘endringer’ og ‘antall’ endres.
 For fjernAlle brukes en while loop av (fjern(verdi)) inntil den får ‘false’ som return verdi, altså verdien finnes ikke i treet lenger. Den vil da skrive ut antall ganger verdien ble slettet. For nullstill går man i post orden og tømmer koblingene til alle nodene. Java sin Garbage Collector tar vare av resten siden det er noder uten koblinger. Alle verdier nullstilles også, unntatt endringer som øker.
+
+Warnings:
+  - bruk av 'ø' som ble gitt fra malen,
+  - Ingen bruk av inneholder siden jeg mente det var unødvendig å ta to løkker som gjør det samme.
+  - Og at leggInn sin output ikke brukes, som jeg tror jeg ikke skal bruke, kanskje i deserialize?
